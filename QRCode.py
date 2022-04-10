@@ -1,30 +1,29 @@
+
 import cv2
 import streamlit as st
 
-# カメラデバイス取得
-cap = cv2.VideoCapture(0)
-# QRCodeDetectorを生成
+st.title("QRコード読みとり")
+option = st.selectbox(
+     '入室　退室',
+     ('入室', '退室'))
+FRAME_WINDOW = st.image([])
+camera = cv2.VideoCapture(0)
 detector = cv2.QRCodeDetector()
 inroom = set()
-while True:
-    # カメラから1フレーム読み取り
-    ret, frame = cap.read()
-
-    # QRコードを認識
+outroom = set()
+while option == "入室": 
+    _, frame = camera.read()
     data = detector.detectAndDecode(frame)
-
-    # 読み取れたらデコードした内容をprint
     if data[0] != "":
         inroom.add(data[0])
-
-    # ウィンドウ表示
-    cv2.imshow('frame', frame)
-
-    # Qキー押すと終了
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# 終了処理
-cap.release()
-cv2.destroyAllWindows()
-st.write(inroom)
+        st.write(data[0])
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    FRAME_WINDOW.image(frame)
+while option == "退室": 
+    _, frame = camera.read()
+    data = detector.detectAndDecode(frame)
+    if data[0] != "":
+        outroom.add(data[0])
+        st.write(data[0])
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    FRAME_WINDOW.image(frame)
