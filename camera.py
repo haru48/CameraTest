@@ -1,6 +1,5 @@
 import cv2
 import streamlit as st
-
 st.title("QRコード読みとり")
 option = st.selectbox(
      '入室　退室',
