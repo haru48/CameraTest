@@ -1,4 +1,3 @@
-
 import cv2
 import streamlit as st
 
@@ -27,3 +26,4 @@ while option == "退室":
         st.write(data[0])
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     FRAME_WINDOW.image(frame)
+
